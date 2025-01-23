@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'; 
-import { CButton, CHeader, CHeaderBrand, CInputGroup, CInputGroupText } from '@coreui/react';
+import { CAlert, CButton, CHeader, CHeaderBrand, CInputGroup, CInputGroupText, CModal, CModalBody, CModalFooter, CModalHeader } from '@coreui/react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../halper/ApiInfo";
@@ -9,6 +9,9 @@ import { BASE_URL } from "../halper/ApiInfo";
 const EmailForm = ({ onSendEmail }) => {
   const [currentClient, setCurrentClient] = useState({});
 // console.log(currentClient);
+const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const [sentEmail, setSentEmail] = useState(null);
 
  
 
@@ -103,14 +106,32 @@ const EmailForm = ({ onSendEmail }) => {
     axios.post(`${BASE_URL}sendmail`, formDataObj, {
     })
     .then(response => {
-      console.log(emailBody);
+      // console.log(emailBody);
+      if(response?.data?.status){
+        console.log('Form submitted successfully:', response.data);
+        setShowModal(true); 
+        setMessage(response?.data?.messages)
+        setSentEmail(response?.data?.status)
+      }else{
+        setShowModal(true); 
+        setMessage(response?.data?.messages)
+        setSentEmail(response?.data?.status)
+      }
       
-      console.log('Form submitted successfully:', response.data);
     })
     .catch(error => {
       console.error('There was an error submitting the form:', error);
     });
   };
+
+  const closeModel=()=>{
+    setShowModal(false); 
+ 
+    // navigate('/proposalclient')
+  
+  
+  
+  }
 
   return (
     <div className='form_container2'>
@@ -160,6 +181,20 @@ const EmailForm = ({ onSendEmail }) => {
         Send Email
       </CButton>
     </div>
+     <CModal className="centered-modal" visible={showModal} onClose={() => setShowModal(false)}>
+            
+              <CModalBody>
+                {
+                             sentEmail?<CAlert color="success">{message}</CAlert>:
+                             <CAlert color="danger">{message}</CAlert>
+                           }
+              </CModalBody>
+              <CModalFooter>
+                <CButton color="secondary" onClick={closeModel}>
+                  Close
+                </CButton>
+              </CModalFooter>
+            </CModal>
     </div>
   );
 };

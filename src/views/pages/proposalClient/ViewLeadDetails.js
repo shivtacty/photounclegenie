@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 
 const ViewLeadDetails = () => {
   const [data, setData] = useState([]);
+  const [clientData, setClientData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,6 +93,7 @@ const navigate =useNavigate()
 
       if (response.status) {
         setData(response?.data?.data);
+        setClientData(response?.data?.data)
         setShowToast(false)
       } else {
         setData([]);
@@ -110,7 +112,7 @@ const navigate =useNavigate()
 
   const handleSearch = () => {
     if (search.trim() === '') {
-      getAllClients(); 
+      setData(clientData)
     } else {
       const filteredData = data.filter(client =>
         client.name.toLowerCase().includes(search.toLowerCase()) ||

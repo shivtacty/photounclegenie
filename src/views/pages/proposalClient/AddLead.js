@@ -14,7 +14,7 @@ const ProposalForm = () => {
     location: '',
     ShootFinalDate: '',
     start_time: '',
-    PhotographerAssigned: [],
+    PhotographerAssigned: '',
     FinalizedDeliverablesDate:"",
     ShootLocation: '',
     // pic_selection: '',
@@ -32,7 +32,8 @@ const ProposalForm = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
-
+  const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -56,6 +57,17 @@ const ProposalForm = () => {
  const ConvertLoggedEmp=JSON?.parse(loggedEmp)
 //  console.log(ConvertLoggedEmp);
  
+
+const validatePhone = (phone) => {
+  const phoneRegex = /^[0-9]{10}$/; 
+  return phoneRegex.test(phone);
+};
+
+const validateEmail = (email) => {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
   const handleSubmit = (e) => {
     
     
@@ -73,7 +85,8 @@ const ProposalForm = () => {
     formDataObj.append('location', formData.location);
     formDataObj.append('ShootFinalDate', formData.ShootFinalDate);
     formDataObj.append('start_time', formData.start_time);
-    formDataObj.append('PhotographerAssigned', formData.PhotographerAssigned.join(', ')); 
+    // formDataObj.append('PhotographerAssigned', formData.PhotographerAssigned.join(', ')); 
+    formDataObj.append('PhotographerAssigned', formData.PhotographerAssigned); 
     formDataObj.append('FinalizedDeliverablesDate', formData.FinalizedDeliverablesDate);
     formDataObj.append('ShootLocation', formData.ShootLocation);
     formDataObj.append('album_requested', formData.album_requested);
@@ -92,8 +105,20 @@ const ProposalForm = () => {
      
     })
     .then(response => {
-      setShowModal(true); 
-      console.log('Form submitted successfully:', response.data);
+      console.log(response);
+      
+      if(response.data.status){
+        setShowModal(true); 
+          console.log('Form submitted successfully:', response);
+          setMessage(response.data.message)
+          setErrors(response.data.status)
+
+        }else{
+          setShowModal(true); 
+          console.log('Form submitted successfully:', response);
+          setMessage(response.data.message)
+          setErrors(response.data.status)
+        }
     })
     .catch(error => {
       console.error('There was an error submitting the form:', error);
@@ -101,16 +126,23 @@ const ProposalForm = () => {
   };
   
 const closeModel=()=>{
-  navigate('/proposalclient')
   setShowModal(false); 
+if(errors){
+  navigate('/proposalclient')
+
+}
 
 }
 
   return (
-    <CForm onSubmit={handleSubmit} className='form_container'>
+     <div className='form_container2'>
+          <div className="form_header ">
+       <p className='px-3 py-2' style={{fontSize:"20px",textTransform:"uppercase"}}>Follow up Chart</p>
+     </div>
+         <CForm onSubmit={handleSubmit} className='form_container' style={{padding:'15px'}}>
       <CRow>
         <CCol sm="4" className="mb-3">
-          <label htmlFor="source">Source</label>
+          <label htmlFor="source">Source <span className="text-danger">*</span></label>
           <CFormSelect name="source" id="source" value={formData.source} onChange={handleChange} required>
             <option value="">--SELECT--</option>
             <option value="UrbanClap">Urban Clap</option>
@@ -125,7 +157,7 @@ const closeModel=()=>{
         </CCol>
 
         <CCol sm="4" className="mb-3">
-          <label htmlFor="shootPackege">Interested Package</label>
+          <label htmlFor="shootPackege">Interested Package <span className="text-danger">*</span></label>
           <CFormSelect name="shootPackege" id="shoot" value={formData.shootPackege} onChange={handleChange} required>
             <option value="">--SELECT--</option>
             <option value="Maternity Photoshoot & Newborn Combo Shoot">Maternity Photoshoot & Newborn Combo Shoot</option>
@@ -181,7 +213,7 @@ const closeModel=()=>{
           />
         </CCol>
         <CCol sm="4" className="mb-3">
-          <label htmlFor="location">Location</label>
+          <label htmlFor="location">Location <span className="text-danger">*</span></label>
           <CFormSelect
             id="location"
             name="location"
@@ -246,7 +278,7 @@ const closeModel=()=>{
 <CRow>
 
 
-<CCol sm="3" className="mb-3">
+{/* <CCol sm="3" className="mb-3">
           <label htmlFor="PhotographerAssigned">Photographer Assigned <span className="text-danger">*</span></label>
           <CFormSelect
             id="PhotographerAssigned"
@@ -259,9 +291,19 @@ const closeModel=()=>{
             <option value="">Select Photographer...</option>
             <option value="Photo Demo">Photo Demo</option>
           </CFormSelect>
-        </CCol>
+        </CCol> */}
         
-        <CCol sm="3" className="mb-3">
+
+        <CCol sm="4" className="mb-3">
+          <label htmlFor="PhotographerAssigned">Photographer Assigned <span className="text-danger">*</span></label>
+          <CFormSelect name="PhotographerAssigned" id="PhotographerAssigned" value={formData.PhotographerAssigned} onChange={handleChange} required>
+            <option value="">Select Photographer...</option>
+            <option value="Photo Demo">Photo Demo</option>
+            
+          </CFormSelect>
+        </CCol>
+
+        <CCol sm="4" className="mb-3">
           <label htmlFor="ShootFinalDate">Finalized Deliverables Date<span className="text-danger">*</span></label>
           <CFormInput
             type="date"
@@ -273,7 +315,7 @@ const closeModel=()=>{
           />
         </CCol>
 
-        <CCol sm="3" className="mb-3">
+        <CCol sm="4" className="mb-3">
           <label htmlFor="FinalizedAmount">Finalized Amount</label>
           <CFormInput
             type="number"
@@ -281,21 +323,10 @@ const closeModel=()=>{
             name="finalized_amount"
             value={formData.finalized_amount}
             onChange={handleChange}
-            required
           />
         </CCol>
 
-        <CCol sm="3" className="mb-3">
-          <label htmlFor="Numberofpicforselection">Number of pic for selection</label>
-          <CFormInput
-            type="number"
-            id="Numberofpicforselection"
-            name="numberofpicforselection"
-            value={formData.numberofpicforselection}
-            onChange={handleChange}
-           
-          />
-        </CCol>
+       
 
 </CRow>
     
@@ -303,7 +334,18 @@ const closeModel=()=>{
       
         
         <CRow>
-        <CCol sm="3" className="mb-3">
+        <CCol sm="4" className="mb-3">
+          <label htmlFor="Numberofpicforselection">Number of pic for selection <span className="text-danger">*</span></label>
+          <CFormInput
+            type="number"
+            id="Numberofpicforselection"
+            name="numberofpicforselection"
+            value={formData.numberofpicforselection}
+            onChange={handleChange}
+           required
+          />
+        </CCol>
+        <CCol sm="4" className="mb-3">
           <label>Album Requested</label>
           <div>
             <CFormCheck
@@ -324,43 +366,8 @@ const closeModel=()=>{
             /> <span className='mx-2'>No</span> 
           </div>
         </CCol>
-        <CCol sm="3" className="mb-3">
-          <label htmlFor="album_size">Album Size</label>
-          <CFormInput
-            type="text"
-            id="album_size"
-            name="album_size"
-            value={formData.album_size}
-            onChange={handleChange}
-          />
-        </CCol>
+      
 
-        <CCol sm="3" className="mb-3">
-          <label htmlFor="album_pages">Album Pages</label>
-          <CFormInput
-            type="number"
-            id="album_pages"
-            name="album_pages"
-            value={formData.album_pages}
-            onChange={handleChange}
-          />
-        </CCol>
-
-        <CCol sm="3" className="mb-3">
-          <label htmlFor="Numberofimagescommittedinalbum">Number of images committed in album</label>
-          <CFormInput
-            type="number"
-            id="Numberofimagescommittedinalbum"
-            name="numberofimagescommittedinalbum"
-            value={formData.numberofimagescommittedinalbum}
-            onChange={handleChange}
-           
-          />
-        </CCol>
-      </CRow>
-
-
-      <CRow>
         <CCol sm="4" className="mb-3">
           <label>Video Requested</label>
           <div>
@@ -382,8 +389,50 @@ const closeModel=()=>{
             /><span className='mx-2'>No</span> 
           </div>
         </CCol>
+      </CRow>
 
+      {
+        formData?.album_requested =="Yes"?<CRow>
         <CCol sm="4" className="mb-3">
+                  <label htmlFor="album_size">Album Size</label>
+                  <CFormInput
+                    type="text"
+                    id="album_size"
+                    name="album_size"
+                    value={formData.album_size}
+                    onChange={handleChange}
+                  />
+                </CCol>
+        
+                <CCol sm="4" className="mb-3">
+                  <label htmlFor="album_pages">Album Pages</label>
+                  <CFormInput
+                    type="number"
+                    id="album_pages"
+                    name="album_pages"
+                    value={formData.album_pages}
+                    onChange={handleChange}
+                  />
+                </CCol>
+        
+                <CCol sm="4" className="mb-3">
+                  <label htmlFor="Numberofimagescommittedinalbum">Number of images committed in album</label>
+                  <CFormInput
+                    type="number"
+                    id="Numberofimagescommittedinalbum"
+                    name="numberofimagescommittedinalbum"
+                    value={formData.numberofimagescommittedinalbum}
+                    onChange={handleChange}
+                   
+                  />
+                </CCol>
+        </CRow>:""
+      }
+
+
+      <CRow>
+       
+{formData?.video_requested =="Yes"?  <CCol sm="4" className="mb-3">
           <label htmlFor="how_many_minute">How many minutes for video</label>
           <CFormInput
             type="number"
@@ -392,7 +441,8 @@ const closeModel=()=>{
             value={formData.how_many_minute}
             onChange={handleChange}
           />
-        </CCol>
+        </CCol>:""}
+       
         <CCol sm="4" className="mb-3">
           <label htmlFor="deliverables">What are the deliverables? <span className="text-danger">*</span></label>
           <CFormTextarea
@@ -406,14 +456,18 @@ const closeModel=()=>{
         </CCol>
       </CRow>
 
-      <CButton type="submit" color="danger">Add Lead</CButton>
+      <CButton type="submit" color="danger" className='mb-4 mt-2'>Add Lead</CButton>
 
       <CModal className="centered-modal" visible={showModal} onClose={() => setShowModal(false)}>
         <CModalHeader closeButton>
           <h5>Form Submitted Successfully!</h5>
         </CModalHeader>
         <CModalBody>
-          <CAlert color="success">Your proposal has been successfully submitted. We will contact you shortly!</CAlert>
+          {
+            errors?<CAlert color="success">{message}</CAlert>:
+            <CAlert color="danger">{message}</CAlert>
+          }
+          {/* <CAlert color="success">Your proposal has been successfully submitted. We will contact you shortly!</CAlert> */}
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={closeModel}>
@@ -423,6 +477,7 @@ const closeModel=()=>{
       </CModal>
 
     </CForm>
+    </div>
   );
 };
 

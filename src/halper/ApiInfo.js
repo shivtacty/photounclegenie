@@ -1,0 +1,1 @@
+export const BASE_URL ='https://plum-termite-772310.hostingersite.com/photouncle/api/'

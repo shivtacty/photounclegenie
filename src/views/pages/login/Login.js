@@ -37,11 +37,11 @@ const Login = () => {
     // const token = 'dummy-jwt-token'; 
     dispatch(login(userData));
 
-    navigate('/');
+    navigate('/proposalclient');
   }
 
   if (isAuthenticated) {
-    navigate('/');
+    navigate('/proposalclient');
   }
 
   return (

@@ -2,7 +2,7 @@
   "name": "@coreui/coreui-free-react-admin-template",
   "version": "5.2.0",
   "description": "CoreUI Free React Admin Template",
-  "homepage": "https://github.com/shivtacty/photounclegenie",
+  "homepage": "https://shivtacty.github.io/photounclegenie",
   "bugs": {
     "url": "https://github.com/shivtacty/photounclegenie/issues"
   },
@@ -11,7 +11,7 @@
     "url": "git@github.com:shivtacty/photounclegenie.git"
   },
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/shivtacty/photounclegenie)",
+  "author": "The CoreUI Team (https://shivtacty.github.io/photounclegenie)",
   "scripts": {
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",

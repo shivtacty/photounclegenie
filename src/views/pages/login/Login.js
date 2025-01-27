@@ -42,7 +42,7 @@ console.log(error);
   }
 
   useEffect(() => {
-    console.log(error);
+    // console.log(error);
 
     if (isAuthenticated) {
       navigate('/proposalclient');

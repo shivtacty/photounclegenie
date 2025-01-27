@@ -25,7 +25,7 @@ const App = () => {
   console.log(isAuthenticated);
   const localstorageData =localStorage.getItem('authToken') 
   const data =JSON.parse(localstorageData)
-  console.log(data)
+  console.log(isAuthenticated)
   
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1])

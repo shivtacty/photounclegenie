@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
@@ -26,9 +26,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const { isAuthenticated, error } = auth;
+  const { isAuthenticated, error,user} = auth;
 
 
+console.log(error);
 
   const handleLogin=(e)=>{
     e.preventDefault();
@@ -36,13 +37,20 @@ const Login = () => {
     const userData = { email, password };
     // const token = 'dummy-jwt-token'; 
     dispatch(login(userData));
-
-    navigate('/proposalclient');
+   
+    // navigate('/proposalclient');
   }
 
-  if (isAuthenticated) {
-    navigate('/proposalclient');
-  }
+  useEffect(() => {
+    console.log(error);
+
+    if (isAuthenticated) {
+      navigate('/proposalclient');
+    }
+  }, [isAuthenticated]);
+
+  
+
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
@@ -72,6 +80,8 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </CInputGroup>
+                   
+                    {error? <CRow> <p className="text-danger">{error}</p></CRow>:  ""}
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="primary" className="px-4" onClick={handleLogin}>

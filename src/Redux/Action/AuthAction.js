@@ -22,26 +22,31 @@ export const login = (userData) => {
 
       // Make the API request
       const response = await axios(config);
+      const error =response?.data?.messages || 'Login failed. Please try again.';
+      console.log(response.data);
+
+      console.log(error);
       
-      if (response.status) {
-        const user = response.data.data;
+      if (response?.data?.status) {
+        const user = response.data.data
         // const userId = response?.data?.pid;
 console.log(user);
 
 // console.log(userId);
 
+
         localStorage.setItem('authToken',JSON.stringify(user) );
 
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: { user },
+          payload: { user},
         });
 
         // setShowSuccessToast(true); 
       } else {
         dispatch({
           type: LOGIN_FAILURE,
-          error: response.data.message || 'Login failed. Please try again.',
+          error: error,
         });
       }
     } catch (error) {

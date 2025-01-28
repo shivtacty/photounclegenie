@@ -185,8 +185,8 @@ const [showModal, setShowModal] = useState(false);
             
               <CModalBody>
                 {
-                             sentEmail?<CAlert color="success">{message}</CAlert>:
-                             <CAlert color="danger">{message}</CAlert>
+                             sentEmail?<CAlert color="success">{message?message:"Something went wrong contact your support team"}</CAlert>:
+                             <CAlert color="danger">{message?message:"Something went wrong contact your support team"}</CAlert>
                            }
               </CModalBody>
               <CModalFooter>

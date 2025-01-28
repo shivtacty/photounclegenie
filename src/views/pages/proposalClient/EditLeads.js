@@ -39,6 +39,7 @@ const EditProposalForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+console.log(errors);
 
   useEffect(() => {
     if (id) {

@@ -35,7 +35,7 @@ const [showModal, setShowModal] = useState(false);
             setEmailSubject(`Discussion regarding ${data.interestedshoot}  - MyBaby247.com `); 
             setEmailRecipient(data.email); 
             setEmailBody(data.mail? data.mail:`
-                <p>Dear ${data.name}</p>
+               <p> <p>Dear ${data.name}</p>
                 <p>Greetings from MyBaby247.com!</p>
                 <p>First of all thanks for reaching out to us for your ${data.interestedshoot}</p>
                 <p>Mybaby247.com is a group of technology driven professional photographers, dealing with direct parents, schools & hospitals with over 2500+ satisfied clients in/around Delhi / NCR.</p>
@@ -76,7 +76,7 @@ const [showModal, setShowModal] = useState(false);
                 <p>mybaby247.com | MyPictures247.com | Humgenie.com</p>
                 <p>J-9/13 Rajouri Garden,</p>
                 <p>New Delhi – 110027</p>
-                <p>Mobile: 8130591978</p>
+                <p>Mobile: 8130591978</p></p>
               `); 
             // setCurrentName(data?.name)
           }
@@ -106,7 +106,7 @@ const [showModal, setShowModal] = useState(false);
     axios.post(`${BASE_URL}sendmail`, formDataObj, {
     })
     .then(response => {
-      // console.log(emailBody);
+      console.log(response);
       if(response?.data?.status){
         console.log('Form submitted successfully:', response.data);
         setShowModal(true); 

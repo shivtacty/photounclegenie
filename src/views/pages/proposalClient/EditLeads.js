@@ -137,8 +137,10 @@ const EditProposalForm = () => {
     .then(response => {
       if(response.data.status){
       setShowModal(true); 
-      console.log('Form submitted successfully:', response);
+      setMessage(response?.data?.message)
+      setErrors(response.data.status)
 
+      console.log('Form submitted successfully:', response);
 
       }
     })
@@ -155,6 +157,15 @@ if(errors){
 }
 
 }
+
+if(message){
+console.log("test1");
+
+}else{
+  console.log("test");
+  
+}
+
 
   return (
     <div className='form_container2'>
@@ -481,10 +492,10 @@ if(errors){
         <CButton type="submit" color="danger" className='mb-4 mt-2'>Update Lead</CButton>
   
         <CModal className="centered-modal" visible={showModal} onClose={() => setShowModal(false)}>
-          <CModalHeader closeButton>
+          {/* <CModalHeader closeButton>
             <h5>Form Submitted Successfully!</h5>
-          </CModalHeader>
-          <CModalBody>
+          </CModalHeader> */}
+          <CModalBody>          
             {
               errors?<CAlert color="success">{message}</CAlert>:
               <CAlert color="danger">{message}</CAlert>

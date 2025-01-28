@@ -113,12 +113,13 @@ const validateEmail = (email) => {
           setMessage(response.data.message)
           setErrors(response.data.status)
 
-        }else{
-          setShowModal(true); 
-          console.log('Form submitted successfully:', response);
-          setMessage(response.data.message)
-          setErrors(response.data.status)
         }
+        // else{
+        //   setShowModal(true); 
+        //   console.log('Form submitted successfully:', response);
+        //   setMessage(response.data.message)
+        //   setErrors(response.data.status)
+        // }
     })
     .catch(error => {
       console.error('There was an error submitting the form:', error);

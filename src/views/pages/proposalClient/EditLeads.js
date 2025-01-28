@@ -143,6 +143,11 @@ const EditProposalForm = () => {
       console.log('Form submitted successfully:', response);
 
       }
+      else{
+        setShowModal(true); 
+        setMessage(response.data.message)
+        setErrors(response.data.status)
+      }
     })
     .catch(error => {
       console.error('There was an error submitting the form:', error);

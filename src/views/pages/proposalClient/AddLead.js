@@ -114,12 +114,12 @@ const validateEmail = (email) => {
           setErrors(response.data.status)
 
         }
-        // else{
-        //   setShowModal(true); 
-        //   console.log('Form submitted successfully:', response);
-        //   setMessage(response.data.message)
-        //   setErrors(response.data.status)
-        // }
+        else{
+          setShowModal(true); 
+          console.log('Form submitted successfully:', response);
+          setMessage(response.data.message)
+          setErrors(response.data.status)
+        }
     })
     .catch(error => {
       console.error('There was an error submitting the form:', error);
@@ -460,9 +460,9 @@ if(errors){
       <CButton type="submit" color="danger" className='mb-4 mt-2'>Add Lead</CButton>
 
       <CModal className="centered-modal" visible={showModal} onClose={() => setShowModal(false)}>
-        <CModalHeader closeButton>
+        {/* <CModalHeader closeButton>
           <h5>Form Submitted Successfully!</h5>
-        </CModalHeader>
+        </CModalHeader> */}
         <CModalBody>
           {
             errors?<CAlert color="success">{message}</CAlert>:

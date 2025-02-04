@@ -36,7 +36,7 @@ console.log(user);
 
 
 
-        localStorage.setItem('authToken',JSON.stringify(user) );
+        localStorage.setItem('AuthToken',JSON.stringify(user) );
 
         dispatch({
           type: LOGIN_SUCCESS,
@@ -62,6 +62,6 @@ console.log(user);
 
 // Action to log out the user
 export const logout = () => {
-  localStorage.removeItem('authToken');
+  localStorage.removeItem('AuthToken');
   return { type: LOGOUT };
 };

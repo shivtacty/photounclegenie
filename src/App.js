@@ -23,7 +23,7 @@ const App = () => {
   const storedTheme = useSelector((state) => state.themeState.theme)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   console.log(isAuthenticated);
-  const localstorageData =localStorage.getItem('authToken') 
+  const localstorageData =localStorage.getItem('AuthToken') 
   const data =JSON.parse(localstorageData)
   console.log(isAuthenticated)
   

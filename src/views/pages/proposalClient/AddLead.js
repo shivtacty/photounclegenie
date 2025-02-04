@@ -53,7 +53,7 @@ const ProposalForm = () => {
       [name]: selectedValues,
     }));
   };
-  const loggedEmp=localStorage.getItem("authToken")
+  const loggedEmp=localStorage.getItem("AuthToken")
  const ConvertLoggedEmp=JSON?.parse(loggedEmp)
 //  console.log(ConvertLoggedEmp);
  
